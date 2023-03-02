@@ -1,0 +1,22 @@
+{
+  "name": "vertjs",
+  "version": "1.0.0",
+  "author": "Sylvain Gougouzian",
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4"
+  },
+  "description": "A green-it framework",
+  "keywords": [
+    "green-it"
+  ],
+  "license": "ISC",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "serve": "bun run --hot index.js"
+  }
+}
