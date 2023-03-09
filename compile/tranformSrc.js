@@ -9,7 +9,7 @@ const humanFileSize = (bytes) => {
   let res = bytes;
 
   if (Math.abs(bytes) < thresh) {
-    return `${bytes} B`;
+    return `${bytes} bytes`;
   }
 
   const units = ["kB", "MB"];
@@ -21,15 +21,15 @@ const humanFileSize = (bytes) => {
     u += 1;
   } while (Math.round(Math.abs(res) * r) / r >= thresh && u < units.length - 1);
 
-  return `${res.toFixed(3)} ${units[u]}`;
+  return `${res.toFixed(3)}${units[u]}`;
 };
 
 export default function transformSrc() {
   try {
-    const files = readdirSync("src");
+    const files = readdirSync(globalThis.dirs.src);
     files.forEach(async (file) => {
       const extension = file.split(".").pop();
-      const srcFile = Bun.file(`./src/${file}`);
+      const srcFile = Bun.file(`./${globalThis.dirs.src}/${file}`);
       const originSize = srcFile.size;
       let content = await srcFile.text();
       let time = performance.now();
@@ -43,11 +43,11 @@ export default function transformSrc() {
         default:
           break;
       }
-      const destFile = Bun.file(`./dist/${file}`);
+      const destFile = Bun.file(`./${globalThis.dirs.dist}/${file}`);
       await Bun.write(destFile, content);
       time = performance.now() - time;
       console.log(
-        `🗜️ ${file} : from ${humanFileSize(originSize)} to ${humanFileSize(
+        `🗜️  ${file} : from ${humanFileSize(originSize)} to ${humanFileSize(
           destFile.size
         )} in ${time.toFixed(3)} ms`
       );

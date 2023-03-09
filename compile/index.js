@@ -1,11 +1,17 @@
+/* eslint-disable no-undef */
 import { mkdirSync, existsSync, rmSync } from "fs";
-import copyPublic from "./copyPublic";
+import copyStatic from "./copyStatic";
 import transformSrc from "./tranformSrc";
 
-const destDir = `dist`;
+globalThis.dirs = {
+  dist: Bun.env.DIST || `dist`,
+  src: Bun.env.SRC || `src`,
+  static: Bun.env.STATIC || `static`,
+};
 
-if (existsSync(destDir)) rmSync(destDir, { recursive: true, force: true });
-mkdirSync(destDir);
+if (existsSync(globalThis.dirs.dist))
+  rmSync(globalThis.dirs.dist, { recursive: true, force: true });
+mkdirSync(globalThis.dirs.dist);
 
-copyPublic();
+copyStatic();
 transformSrc();

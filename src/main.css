@@ -2,3 +2,7 @@ h1.test {
     font-weight: 700;
     color:red;
 }
+
+p {
+    text-decoration: underline;
+}
