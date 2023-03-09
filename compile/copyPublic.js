@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
-import { readdirSync, mkdirSync, existsSync } from "fs";
+import { readdirSync } from "fs";
 
 export default function copyPublic() {
-  if (!existsSync("dist")) mkdirSync("dist");
   try {
     const files = readdirSync("public");
     files.forEach(async (file) => {
