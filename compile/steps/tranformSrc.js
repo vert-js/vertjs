@@ -10,7 +10,7 @@ export default function transformSrc() {
     try {
       const files = readdirSync(globalThis.dirs.src);
       const promises = [];
-      files.forEach((file) => {
+      files.map((file) =>
         promises.push(
           new Promise((resolveEach) => {
             const extension = file.split(".").pop();
@@ -23,9 +23,11 @@ export default function transformSrc() {
               switch (extension) {
                 case "html":
                   content = htmlMinifier(content);
+                  globalThis.files.html.push(file);
                   break;
                 case "css":
                   content = cssMinifier(content);
+                  globalThis.files.css.push(file);
                   break;
                 default:
                   break;
@@ -43,10 +45,10 @@ export default function transformSrc() {
               });
             });
           })
-        );
-      });
+        )
+      );
       Promise.all(promises).then((logs) => {
-        logs.forEach((log) => console.log(log));
+        logs.map((log) => console.log(log));
         resolve();
       });
     } catch (e) {

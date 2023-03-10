@@ -1,6 +1,9 @@
 h1.test {
-    font-weight: 700;
     color:red;
+}
+
+h1 {
+    font-weight: 700;
 }
 
 p {

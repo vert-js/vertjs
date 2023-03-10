@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { mkdirSync, existsSync, rmSync } from "fs";
+import optimizerCSS from "./optimizer/css";
 import calcFinalSize from "./steps/calcFinalSize";
 import copyStatic from "./steps/copyStatic";
 import transformSrc from "./steps/tranformSrc";
@@ -9,6 +10,11 @@ globalThis.dirs = {
   dist: Bun.env.DIST || `dist`,
   src: Bun.env.SRC || `src`,
   static: Bun.env.STATIC || `static`,
+};
+
+globalThis.files = {
+  html: [],
+  css: [],
 };
 
 if (existsSync(globalThis.dirs.dist))
@@ -24,6 +30,7 @@ let time = performance.now();
 
 copyStatic();
 await transformSrc();
+await optimizerCSS();
 calcFinalSize();
 
 time = performance.now() - time;

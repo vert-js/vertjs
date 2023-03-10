@@ -4,7 +4,7 @@ import { readdirSync } from "fs";
 export default function copyStatic() {
   try {
     const files = readdirSync(globalThis.dirs.static);
-    files.forEach(async (file) => {
+    files.map(async (file) => {
       await Bun.write(
         Bun.file(`./${globalThis.dirs.dist}/${file}`),
         Bun.file(`./${globalThis.dirs.static}/${file}`)
