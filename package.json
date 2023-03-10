@@ -21,7 +21,7 @@
   "license": "ISC",
   "scripts": {
     "lint": "eslint . --fix",
-    "compile": "bun run --hot compile/index.js",
+    "optimize": "bun run --hot optimize/index.js",
     "serve": "bun run --hot server/index.js"
   }
 }

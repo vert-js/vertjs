@@ -10,7 +10,7 @@ export default function transformSrc() {
     try {
       const files = readdirSync(globalThis.dirs.src);
       const promises = [];
-      files.map((file) =>
+      files.forEach((file) =>
         promises.push(
           new Promise((resolveEach) => {
             const extension = file.split(".").pop();
@@ -48,7 +48,7 @@ export default function transformSrc() {
         )
       );
       Promise.all(promises).then((logs) => {
-        logs.map((log) => console.log(log));
+        logs.forEach((log) => console.log(log));
         resolve();
       });
     } catch (e) {
