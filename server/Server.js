@@ -1,4 +1,5 @@
 "bun run --hot serve.js";
+
 export default class Server {
   static start() {
     // eslint-disable-next-line no-undef

@@ -5,5 +5,6 @@ export default function calcFinalSize() {
   files.map((file) => {
     // eslint-disable-next-line no-undef
     globalThis.sizes.final += Bun.file(`${globalThis.dirs.dist}/${file}`).size;
+    return true;
   });
 }

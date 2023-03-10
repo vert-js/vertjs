@@ -2,6 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { parseDocument } from "htmlparser2";
 import { selectAll } from "css-select";
+import cssMinifier from "../minifier/css";
 
 export default function optimizerCSS() {
   return new Promise((resolve) => {
@@ -13,17 +14,20 @@ export default function optimizerCSS() {
           Bun.file(`${globalThis.dirs.dist}/${css}`)
             .text()
             .then((content) => {
-              [...content.matchAll(/([^{]+)\{([^}]+)\}/gm)].map((array) => {
-                if (!(array[1] in cssRules))
-                  cssRules[array[1]] = {
-                    found: 0,
-                    kept: [],
-                  };
-                cssRules[array[1]].kept.push({
-                  file: css,
-                  rules: array[2],
-                });
-              });
+              [...content.matchAll(/([^{]+)\{([^}]+)\}/gm)].map((array) =>
+                array[1].split(",").map((path) => {
+                  const r = path.trim();
+                  if (!(r in cssRules))
+                    cssRules[r] = {
+                      found: 0,
+                      kept: [],
+                    };
+                  return cssRules[r].kept.push({
+                    file: css,
+                    rules: array[2],
+                  });
+                })
+              );
               resolveCSSEach();
             });
         })
@@ -41,6 +45,7 @@ export default function optimizerCSS() {
                 const document = parseDocument(content);
                 cssKeys.map((rule) => {
                   cssRules[rule].found = selectAll(rule, document).length;
+                  return true;
                 });
                 resolveHTMLEach();
               });
@@ -50,19 +55,23 @@ export default function optimizerCSS() {
 
       Promise.all(promisesHTML).then(() => {
         cssKeys.map((rule) => {
-          if (cssRules[rule].found == 0) delete cssRules[rule];
+          if (cssRules[rule].found === 0) delete cssRules[rule];
+          return true;
         });
-        let css = {};
+        const css = {};
         globalThis.files.css.map((c) => {
           css[c] = "";
+          return true;
         });
         Object.keys(cssRules).map((k) => {
           cssRules[k].kept.map((o) => {
             css[o.file] = `${css[o.file]}${k}{${o.rules}}`;
+            return true;
           });
+          return true;
         });
         Object.keys(css).map(async (f) => {
-          await Bun.write(`${globalThis.dirs.dist}/${f}`, css[f]);
+          await Bun.write(`${globalThis.dirs.dist}/${f}`, cssMinifier(css[f]));
         });
         resolve();
       });
