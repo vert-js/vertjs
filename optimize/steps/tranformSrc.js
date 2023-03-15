@@ -21,6 +21,7 @@ export default function transformSrc() {
               let content = text;
               let time = performance.now();
               switch (extension) {
+                case "xml":
                 case "html":
                   content = htmlMinifier(content);
                   globalThis.files.html.push(file);

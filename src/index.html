@@ -1,10 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Test</title>
-    <link href="main.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gouz | Sylvain Gougouzian</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="theme-color" content="#000000" />
+    <script type="module" crossorigin src="/assets/index.f17253a4.js"></script>
+    <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
-    <h1>Bun!</h1>
+    <h1>
+      <a href="https://sylvain.gougouzian.fr" rel="noopener" target="_blank">
+        <img src="favicon/android-chrome-192x192.png" alt="avatar" />
+        <span>Sylvain Gougouzian</span>
+      </a>
+    </h1>
+    <div id="app">
+      <h2 class="socials-title">Social networks</h2>
+      <div
+        id="socials-wrapper"
+        data-launcher="#socials-launcher"
+        class="wrappers"
+      >
+        <a
+          id="socials-launcher"
+          href="#socials"
+          class="launcher"
+          title="My socials"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
+            />
+          </svg>
+        </a>
+        <ul id="socials">
+          <li>
+            <a
+              href="https://dev-in.fr"
+              title="Link to dev'in"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #005c79; color: #ffffff"
+              ><img src="/socials/dev-in.svg" alt="dev-in" /><span
+                >Dev'in</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.facebook.com/gougouzian"
+              title="Link to Facebook"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #4267b2; color: #ffffff"
+              ><img src="/socials/facebook.svg" alt="facebook" /><span
+                >Facebook / gougouzian</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/gouz"
+              title="Link to github"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #171515; color: #ffffff"
+              ><img src="/socials/github.svg" alt="github" /><span
+                >github / gouz</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://gitlab.com/gouz"
+              title="Link to gitlab"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #ffffff; color: #000000"
+              ><img src="/socials/gitlab.svg" alt="gitlab" /><span
+                >gitlab / gouz</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://keybase.io/gouz"
+              title="Link to keybase"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #33a0ff; color: #ffffff"
+              ><img src="/socials/keybase.svg" alt="keybase" /><span
+                >keybase / gouz</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/sylvain-gougouzian/"
+              title="Link to linkedin"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #0077b5; color: #ffffff"
+              ><img src="/socials/linkedin.svg" alt="linkedin" /><span
+                >linkedin / sylvain-gougouzian</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://mastodon.social/@gouz"
+              title="Link to mastodon"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #3088d4; color: #ffffff"
+              ><img src="/socials/mastodon.svg" alt="mastodon" /><span
+                >mastodon / gouz</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://musescore.com/user/36109194"
+              title="Link to musescore"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #2162b2; color: #ffffff"
+              ><img src="/socials/musescore.svg" alt="musescore" /><span
+                >musescore / gouz_</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.npmjs.com/~gouz"
+              title="Link to npmjs"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #cb3837; color: #ffffff"
+              ><img src="/socials/npmjs.svg" alt="npmjs" /><span
+                >npmjs / gouz</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://soundcloud.com/gouz"
+              title="Link to soundcloud"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #ff5500; color: #ffffff"
+              ><img src="/socials/soundcloud.svg" alt="soundcloud" /><span
+                >soundcloud / gouz</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.twitch.tv/gouz_dev"
+              title="Link to twitch"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #6441a4; color: #ffffff"
+              ><img src="/socials/twitch.svg" alt="twitch" /><span
+                >twitch / gouz_dev</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.twitter.com/GouZ"
+              title="Link to twitter"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #1da1f2; color: #ffffff"
+              ><img src="/socials/twitter.svg" alt="twitter" /><span
+                >twitter / GouZ</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.youtube.com/channel/UCZY4TfFMOrK93mu1T3yVHIA"
+              title="Link to youtube"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #ed1d24; color: #ffffff"
+              ><img src="/socials/youtube.svg" alt="youtube" /><span
+                >youtube / GouZ</span
+              ></a
+            >
+          </li>
+        </ul>
+      </div>
+      <h2 class="projects-title">Projects</h2>
+      <div
+        id="projects-wrapper"
+        data-launcher="#projects-launcher"
+        class="wrappers"
+      >
+        <a
+          id="projects-launcher"
+          href="#projects"
+          class="launcher"
+          title="My projects"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
+            />
+          </svg>
+        </a>
+        <ul id="projects">
+          <li>
+            <a
+              href="https://muzik.gouz.dev"
+              title="Link to the Muzik project"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #ffffff; color: #000000"
+              ><img src="/projects/muzik.svg" alt="muzik" /><span
+                >Muzik // My favourite song list when I code</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://gouz.github.io/barry"
+              title="Link to the Barry project"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #ffffff; color: #000000"
+              ><img src="/projects/barry.svg" alt="barry" /><span
+                >Barry // What if we meet in the middle of the road?</span
+              ></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://gouz.github.io/HamaCreator"
+              title="Link to the HamaCreator project"
+              rel="noopener"
+              target="_blank"
+              style="background-color: #ffffff; color: #000000"
+              ><img src="/projects/hamacreator.svg" alt="hamacreator" /><span
+                >HamaCreator // Convert image to hama bread canvas</span
+              ></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>

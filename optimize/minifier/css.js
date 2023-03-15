@@ -5,7 +5,7 @@ export default function cssMinifier(content) {
   const { code } = transform({
     code: Buffer.from(content),
     minify: true,
-    sourceforEach: false,
+    sourcemap: false,
   });
   return code;
 }

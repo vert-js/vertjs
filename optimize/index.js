@@ -28,7 +28,7 @@ globalThis.sizes = {
 
 let time = performance.now();
 
-copyStatic();
+if (existsSync(globalThis.dirs.static)) copyStatic();
 await transformSrc();
 await optimizerCSS();
 calcFinalSize();

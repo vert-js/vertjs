@@ -46,7 +46,13 @@ export default function optimizerCSS() {
               .then((content) => {
                 const document = parseDocument(content);
                 cssKeys.forEach((rule) => {
-                  cssRules[rule].found = selectAll(rule, document).length;
+                  if (
+                    rule === "*" ||
+                    rule.startsWith(":") ||
+                    rule.indexOf(":") !== -1
+                  )
+                    cssRules[rule].found = 1;
+                  else cssRules[rule].found = selectAll(rule, document).length;
                   return true;
                 });
                 resolveHTMLEach();

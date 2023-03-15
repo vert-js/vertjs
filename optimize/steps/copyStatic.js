@@ -1,17 +1,24 @@
 /* eslint-disable no-undef */
-import { readdirSync } from "fs";
+import {
+  mkdirSync,
+  readdirSync,
+  lstatSync,
+  copyFileSync,
+  existsSync,
+} from "fs";
+import path from "path";
+
+function copyFolderSync(from, to) {
+  if (!existsSync(to)) mkdirSync(to);
+  readdirSync(from).forEach((element) => {
+    if (lstatSync(path.join(from, element)).isFile()) {
+      copyFileSync(path.join(from, element), path.join(to, element));
+    } else {
+      copyFolderSync(path.join(from, element), path.join(to, element));
+    }
+  });
+}
 
 export default function copyStatic() {
-  try {
-    const files = readdirSync(globalThis.dirs.static);
-    files.forEach(async (file) => {
-      await Bun.write(
-        Bun.file(`./${globalThis.dirs.dist}/${file}`),
-        Bun.file(`./${globalThis.dirs.static}/${file}`)
-      );
-    });
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
-  }
+  copyFolderSync(globalThis.dirs.static, globalThis.dirs.dist);
 }
