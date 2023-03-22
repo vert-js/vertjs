@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { mkdirSync, existsSync, rmSync } from "fs";
-import optimizerCSS from "./optimizer/css";
-import calcFinalSize from "./steps/calcFinalSize";
+// import optimizerCSS from "./optimizer/css";
+// import calcFinalSize from "./steps/calcFinalSize";
 import copyStatic from "./steps/copyStatic";
 import transformSrc from "./steps/tranformSrc";
 import humanFileSize from "./utils/human";
@@ -30,8 +30,8 @@ let time = performance.now();
 
 if (existsSync(globalThis.dirs.static)) copyStatic();
 await transformSrc();
-await optimizerCSS();
-calcFinalSize();
+// await optimizerCSS();
+// calcFinalSize();
 
 time = performance.now() - time;
 
@@ -39,5 +39,11 @@ time = performance.now() - time;
 console.log(
   `🌱 Original size : ${humanFileSize(globalThis.sizes.origin)}
    Final size : ${humanFileSize(globalThis.sizes.final)}
+   Gained size : ${humanFileSize(
+     globalThis.sizes.origin - globalThis.sizes.final
+   )} (${(
+    (100 * (globalThis.sizes.origin - globalThis.sizes.final)) /
+    globalThis.sizes.origin
+  ).toFixed(0)}%)
    in ${time.toFixed(3)} ms`
 );

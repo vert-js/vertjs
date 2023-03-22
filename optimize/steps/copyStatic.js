@@ -10,12 +10,11 @@ import path from "path";
 
 function copyFolderSync(from, to) {
   if (!existsSync(to)) mkdirSync(to);
-  readdirSync(from).forEach((element) => {
+  readdirSync(from).map((element) => {
     if (lstatSync(path.join(from, element)).isFile()) {
-      copyFileSync(path.join(from, element), path.join(to, element));
-    } else {
-      copyFolderSync(path.join(from, element), path.join(to, element));
+      return copyFileSync(path.join(from, element), path.join(to, element));
     }
+    return copyFolderSync(path.join(from, element), path.join(to, element));
   });
 }
 

@@ -15,19 +15,23 @@ export default function optimizerCSS() {
         new Promise((resolveCSSEach) => {
           const file = Bun.file(`${globalThis.dirs.dist}/${css}`);
           cssSizes[css] = file.size;
+          let media = "";
           file.text().then((content) => {
             [...content.matchAll(/([^{]+)\{([^}]+)\}/gm)].forEach((array) =>
               array[1].split(",").forEach((path) => {
-                const r = path.trim();
-                if (!(r in cssRules))
-                  cssRules[r] = {
-                    found: 0,
-                    kept: [],
-                  };
-                return cssRules[r].kept.push({
-                  file: css,
-                  rules: array[2],
-                });
+                if (path.startsWith("@media")) media = path;
+                else {
+                  const r = `${media}/${path.trim()}`;
+                  if (!(r in cssRules))
+                    cssRules[r] = {
+                      found: 0,
+                      kept: [],
+                    };
+                  cssRules[r].kept.push({
+                    file: css,
+                    rules: array[2],
+                  });
+                }
               })
             );
             resolveCSSEach();
@@ -46,13 +50,10 @@ export default function optimizerCSS() {
               .then((content) => {
                 const document = parseDocument(content);
                 cssKeys.forEach((rule) => {
-                  if (
-                    rule === "*" ||
-                    rule.startsWith(":") ||
-                    rule.indexOf(":") !== -1
-                  )
+                  const r = rule.substring(rule.indexOf("/") + 1);
+                  if (r === "*" || r.startsWith(":") || r.indexOf(":") !== -1)
                     cssRules[rule].found = 1;
-                  else cssRules[rule].found = selectAll(rule, document).length;
+                  else cssRules[rule].found = selectAll(r, document).length;
                   return true;
                 });
                 resolveHTMLEach();
