@@ -34,10 +34,9 @@ const transformFile = (file) =>
         time = performance.now() - time;
         globalThis.sizes.final += destFile.size;
         resolve(
-          `🗜️  ${file}: 
-            from ${humanFileSize(originSize)} 
-            to ${humanFileSize(destFile.size)} 
-            in ${time.toFixed(3)} ms`
+          `🗜️  ${file}: from ${humanFileSize(originSize)} to ${humanFileSize(
+            destFile.size
+          )} in ${time.toFixed(3)} ms`
         );
       });
     });
@@ -46,10 +45,12 @@ const transformFile = (file) =>
 export default function transformSrc() {
   return new Promise((resolve, reject) => {
     try {
-      const files = readdirSync(globalThis.dirs.src);
+      const files = readdirSync(globalThis.dirs.src, {
+        withFileTypes: true,
+      });
       const promises = [];
       for (let i = 0; i < files.length; i += 1) {
-        promises.push(transformFile(files[i]));
+        if (files[i].isFile()) promises.push(transformFile(files[i].name));
       }
       Promise.all(promises).then((logs) => {
         console.log(logs.join("\n"));

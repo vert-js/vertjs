@@ -2,6 +2,7 @@
   "name": "vertjs",
   "version": "1.0.0",
   "author": "Sylvain Gougouzian",
+  "type": "module",
   "devDependencies": {
     "css-select": "^5.1.0",
     "eslint": "^8.35.0",
@@ -16,12 +17,14 @@
   },
   "description": "A green-it framework",
   "keywords": [
-    "green-it"
+    "green-it",
+    "vertjs"
   ],
   "license": "ISC",
-  "scripts": {
-    "lint": "eslint . --fix",
-    "optimize": "bun run --hot optimize/index.js",
-    "serve": "bun run --hot server/index.js"
+  "bin": {
+    "vertjs": "./dist/index.js"
+  },
+  "dependencies": {
+    "commander": "^11.0.0"
   }
 }
