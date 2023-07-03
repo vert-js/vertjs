@@ -1,0 +1,30 @@
+{
+  "name": "vertjs",
+  "version": "1.0.0",
+  "author": "Sylvain Gougouzian",
+  "type": "module",
+  "devDependencies": {
+    "css-select": "^5.1.0",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "html-minifier": "^4.0.0",
+    "htmlparser2": "^8.0.1",
+    "lightningcss": "^1.19.0",
+    "prettier": "^2.8.4"
+  },
+  "description": "A green-it framework",
+  "keywords": [
+    "green-it",
+    "vertjs"
+  ],
+  "license": "ISC",
+  "bin": {
+    "vertjs": "./dist/index.js"
+  },
+  "dependencies": {
+    "commander": "^11.0.0"
+  }
+}
