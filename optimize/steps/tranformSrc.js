@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
-import { readdirSync } from "fs";
+import { readdirSync, mkdirSync } from "fs";
 import cssMinifier from "../minifier/css";
 import htmlMinifier from "../minifier/html";
 import humanFileSize from "../utils/human";
@@ -8,7 +8,7 @@ import humanFileSize from "../utils/human";
 const transformFile = (file) =>
   new Promise((resolve) => {
     const extension = file.split(".").pop();
-    const srcFile = Bun.file(`./${globalThis.dirs.src}/${file}`);
+    const srcFile = Bun.file(`./${file}`);
     const originSize = srcFile.size;
     globalThis.sizes.origin += originSize;
     srcFile.text().then((text) => {
@@ -29,7 +29,13 @@ const transformFile = (file) =>
         default:
           break;
       }
-      const destFile = Bun.file(`./${globalThis.dirs.dist}/${file}`);
+      const path = `./${file.replace(
+        new RegExp(`^${globalThis.dirs.src}/`),
+        `${globalThis.dirs.dist}/`
+      )}`;
+      // mkdir if needed
+      mkdirSync(path.substring(0, path.lastIndexOf("/")), { recursive: true });
+      const destFile = Bun.file(path);
       Bun.write(destFile, content).then(() => {
         time = performance.now() - time;
         globalThis.sizes.final += destFile.size;
@@ -42,15 +48,17 @@ const transformFile = (file) =>
     });
   });
 
-export default function transformSrc() {
-  return new Promise((resolve, reject) => {
+const recurseDir = async (dir) =>
+  new Promise((resolve, reject) => {
     try {
-      const files = readdirSync(globalThis.dirs.src, {
+      const files = readdirSync(dir, {
         withFileTypes: true,
       });
       const promises = [];
       for (let i = 0; i < files.length; i += 1) {
-        if (files[i].isFile()) promises.push(transformFile(files[i].name));
+        if (files[i].isFile()) {
+          promises.push(transformFile(`${dir}/${files[i].name}`));
+        } else promises.push(recurseDir(`${dir}/${files[i].name}`));
       }
       Promise.all(promises).then((logs) => {
         console.log(logs.join("\n"));
@@ -61,4 +69,7 @@ export default function transformSrc() {
       reject();
     }
   });
+
+export default async function transformSrc() {
+  await recurseDir(globalThis.dirs.src);
 }
