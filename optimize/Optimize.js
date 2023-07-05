@@ -1,51 +1,43 @@
 /* eslint-disable no-undef */
-import { mkdirSync, existsSync, rmSync } from "fs";
-// import optimizerCSS from "./optimizer/css";
-// import calcFinalSize from "./steps/calcFinalSize";
+import { existsSync } from "fs";
+import bundle from "./steps/bundle";
 import copyStatic from "./steps/copyStatic";
-import transformSrc from "./steps/tranformSrc";
 import humanFileSize from "./utils/human";
+import clean from "./steps/clean";
+import copyIndexHtml from "./steps/copyIndexHtml";
+import optimize from "./steps/optimize";
+import calcSize from "./steps/calcSize";
 
 export default class Optimize {
   static async optim() {
     globalThis.dirs = {
-      dist: Bun.env.DIST || `dist`,
+      dest: Bun.env.DIST || `dist`,
       src: Bun.env.SRC || `src`,
       static: Bun.env.STATIC || `static`,
     };
 
-    globalThis.files = {
-      html: [],
-      css: [],
-    };
-
-    if (existsSync(globalThis.dirs.dist))
-      rmSync(globalThis.dirs.dist, { recursive: true, force: true });
-    mkdirSync(globalThis.dirs.dist);
-
-    globalThis.sizes = {
-      origin: 0,
-      final: 0,
-    };
-
     let time = performance.now();
-
-    if (existsSync(globalThis.dirs.static)) copyStatic();
-    await transformSrc();
-    // await optimizerCSS();
-    // calcFinalSize();
-
+    clean();
+    const indexJS = await bundle();
+    copyIndexHtml(indexJS);
+    let staticSize = 0;
+    if (existsSync(globalThis.dirs.static)) {
+      copyStatic();
+      staticSize = calcSize(globalThis.dirs.static);
+    }
+    await optimize();
+    const srcSize = calcSize(globalThis.dirs.src) + staticSize;
+    const destSize = calcSize(globalThis.dirs.dest);
     time = performance.now() - time;
 
     // eslint-disable-next-line no-console
     console.log(
-      `🌱 Original size : ${humanFileSize(globalThis.sizes.origin)}
-   Final size : ${humanFileSize(globalThis.sizes.final)}
-   Gained size : ${humanFileSize(
-     globalThis.sizes.origin - globalThis.sizes.final
-   )} (${(
-        (100 * (globalThis.sizes.origin - globalThis.sizes.final)) /
-        globalThis.sizes.origin
+      `
+Original size : ${humanFileSize(srcSize)}
+Final size : ${humanFileSize(destSize)}
+Gained size : ${humanFileSize(srcSize - destSize)} (${(
+        (100 * (srcSize - destSize)) /
+        srcSize
       ).toFixed(0)}%)
    in ${time.toFixed(3)} ms`
     );
