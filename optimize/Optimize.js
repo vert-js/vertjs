@@ -22,7 +22,7 @@ export default class Optimize {
     await copyIndexHtml(indexJS);
     let staticSize = 0;
     if (existsSync(globalThis.dirs.static)) {
-      copyStatic();
+      await copyStatic();
       staticSize = calcSize(globalThis.dirs.static);
     }
     await optimize();
