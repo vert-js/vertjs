@@ -31,7 +31,7 @@ export default class Optimize {
     let time = performance.now();
 
     if (existsSync(globalThis.dirs.static)) copyStatic();
-    transformSrc();
+    await transformSrc();
     // await optimizerCSS();
     // calcFinalSize();
 
