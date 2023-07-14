@@ -20,6 +20,14 @@ export default async function copyIndexHtml(bundles) {
       .map((c) => `<link rel="stylesheet" type="text/css" href="${c}" />`)
       .join("")}</head>`
   );
+  htmlContent = htmlContent.replace(
+    "</body>",
+    `<script>
+const socket = new WebSocket("ws://localhost:${Bun.env.PORT || 1337}/reload");
+  socket.addEventListener("message", event => {
+    window.location.reload();
+  })</script></body>`
+  );
   const destHTML = Bun.file(`${globalThis.dirs.dest}/index.html`);
   await Bun.write(destHTML, htmlContent);
 }
