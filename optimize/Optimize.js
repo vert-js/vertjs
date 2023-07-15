@@ -18,13 +18,13 @@ export default class Optimize {
 
     let time = performance.now();
     clean();
-    const bundles = await bundle();
-    await copyIndexHtml(bundles);
     let staticSize = 0;
     if (existsSync(globalThis.dirs.static)) {
       await copyStatic();
       staticSize = calcSize(globalThis.dirs.static);
     }
+    const bundles = await bundle();
+    await copyIndexHtml(bundles);
     await optimize();
     const srcSize = calcSize(globalThis.dirs.src) + staticSize;
     const destSize = calcSize(globalThis.dirs.dest);

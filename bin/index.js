@@ -12,11 +12,16 @@ program.description("A green-it framework").action(() => {
     Server.start();
   });
 
-  watch(globalThis.dirs.src, { recursive: true }, (eventType, filename) => {
+  const dirs = [globalThis.dirs.src];
+  const watcher = (eventType, filename) => {
     console.log(`♻️  ${filename} is ${eventType}`);
     Optimize.optim().then(() => {
       Server.reload();
     });
+  };
+
+  dirs.forEach((d) => {
+    watch(d, { recursive: true }, watcher);
   });
 });
 program.parse();

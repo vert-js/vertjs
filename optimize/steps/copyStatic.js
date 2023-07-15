@@ -1,20 +1,23 @@
 /* eslint-disable no-undef */
-import {
-  mkdirSync,
-  readdirSync,
-  lstatSync,
-  copyFileSync,
-  existsSync,
-} from "fs";
+import { readdirSync, lstatSync, mkdirSync } from "fs";
 import path from "path";
 
 function copyFolderSync(from, to) {
-  if (!existsSync(to)) mkdirSync(to);
-  readdirSync(from).map((element) => {
+  readdirSync(from).forEach((element) => {
     if (lstatSync(path.join(from, element)).isFile()) {
-      return copyFileSync(path.join(from, element), path.join(to, element));
+      const input = Bun.file(`${from}/${element}`);
+      const destDir = from.replace(
+        new RegExp(`^${globalThis.dirs.static}/`, "g"),
+        `${globalThis.dirs.dest}/`
+      );
+      const output = Bun.file(`${destDir}/${element}`);
+      mkdirSync(destDir, {
+        recursive: true,
+      });
+      Bun.write(output, input);
+      return;
     }
-    return copyFolderSync(path.join(from, element), path.join(to, element));
+    copyFolderSync(path.join(from, element), path.join(to, element));
   });
 }
 
