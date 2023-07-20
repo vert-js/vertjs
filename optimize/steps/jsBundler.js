@@ -1,4 +1,4 @@
-export default async function bundle() {
+export default async function jsBundler() {
   // eslint-disable-next-line no-undef
   return Bun.build({
     entrypoints: [`${globalThis.dirs.src}/index.js`],

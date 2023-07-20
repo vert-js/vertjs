@@ -1,24 +1,16 @@
 /* eslint-disable no-undef */
-export default async function copyIndexHtml(bundles) {
+export default async function copyIndexHtml(JSbundles, CSSbundles) {
   const srcHTML = Bun.file(`${globalThis.dirs.src}/index.html`);
   let htmlContent = await srcHTML.text();
-  const indexjs = bundles.outputs.shift();
+  const indexjs = JSbundles.outputs.shift();
   htmlContent = htmlContent.replace(
     "index.js",
     indexjs.path.substring(indexjs.path.lastIndexOf("/"))
   );
-  const css = [];
-  bundles.outputs.forEach((output) => {
-    const path = output.path.substring(output.path.lastIndexOf("/"));
-    if (path.endsWith(".css")) {
-      css.push(path);
-    }
-  });
+  const indexcss = CSSbundles.shift();
   htmlContent = htmlContent.replace(
-    "</head>",
-    `${css
-      .map((c) => `<link rel="stylesheet" type="text/css" href="${c}" />`)
-      .join("")}</head>`
+    "index.css",
+    indexcss.substring(indexcss.lastIndexOf("/"))
   );
   htmlContent = htmlContent.replace(
     "</body>",

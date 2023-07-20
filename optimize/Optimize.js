@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
 import { existsSync } from "fs";
-import bundle from "./steps/bundle";
+import jsBundler from "./steps/jsBundler";
 import copyStatic from "./steps/copyStatic";
 import humanFileSize from "./utils/human";
 import clean from "./steps/clean";
 import copyIndexHtml from "./steps/copyIndexHtml";
 import optimize from "./steps/optimize";
 import calcSize from "./steps/calcSize";
+import cssBundler from "./steps/cssBundler";
 
 export default class Optimize {
   static async optim() {
@@ -23,8 +24,7 @@ export default class Optimize {
       await copyStatic();
       staticSize = calcSize(globalThis.dirs.static);
     }
-    const bundles = await bundle();
-    await copyIndexHtml(bundles);
+    await copyIndexHtml(await jsBundler(), await cssBundler());
     await optimize();
     const srcSize = calcSize(globalThis.dirs.src) + staticSize;
     const destSize = calcSize(globalThis.dirs.dest);
