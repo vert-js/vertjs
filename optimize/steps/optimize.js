@@ -3,11 +3,13 @@
 import { readdirSync } from "fs";
 import cssMinifier from "../minifier/css";
 import htmlMinifier from "../minifier/html";
+import humanFileSize from "../utils/human";
 
 const transformFile = (file) =>
   new Promise((resolve) => {
     const extension = file.split(".").pop();
     const theFile = Bun.file(`./${file}`);
+    const { size } = theFile;
     theFile.text().then((text) => {
       let content = text;
       switch (extension) {
@@ -23,8 +25,12 @@ const transformFile = (file) =>
         default:
           break;
       }
-      Bun.write(theFile, content).then(() => {
-        resolve(`🗜️  ${file}`);
+      Bun.write(theFile, content).then((newSize) => {
+        resolve(
+          `🗜️  ${file}: from ${humanFileSize(size)} to ${humanFileSize(
+            newSize
+          )}`
+        );
       });
     });
   });
