@@ -3,7 +3,9 @@
 import { readdirSync } from "fs";
 import cssMinifier from "../minifier/css";
 import htmlMinifier from "../minifier/html";
+import svgMinifier from "../minifier/svg";
 import humanFileSize from "../utils/human";
+import jsonMinifier from "../minifier/json";
 
 const transformFile = (file) =>
   new Promise((resolve) => {
@@ -21,6 +23,12 @@ const transformFile = (file) =>
           break;
         case "css":
           content = cssMinifier(content);
+          break;
+        case "svg":
+          content = svgMinifier(content);
+          break;
+        case "json":
+          content = jsonMinifier(content);
           break;
         default:
           break;
