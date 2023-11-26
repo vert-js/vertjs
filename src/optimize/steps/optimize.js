@@ -10,7 +10,7 @@ import jsonMinifier from "../minifier/json";
 const transformFile = (file) =>
   new Promise((resolve) => {
     const extension = file.split(".").pop();
-    const theFile = Bun.file(`./${file}`);
+    const theFile = Bun.file(file);
     const { size } = theFile;
     theFile.text().then((text) => {
       let content = text;

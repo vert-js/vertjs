@@ -10,13 +10,12 @@ import calcSize from "./steps/calcSize";
 import cssBundler from "./steps/cssBundler";
 
 export default class Optimize {
-  static async optim() {
+  static async optim(path) {
     globalThis.dirs = {
-      dest: Bun.env.DIST || `dist`,
-      src: Bun.env.SRC || `src`,
-      static: Bun.env.STATIC || `static`,
+      dest: `${globalThis.path}/${globalThis.env.DEST || "dest"}`,
+      src: `${globalThis.path}/${globalThis.env.SRC || "src"}`,
+      static: `${globalThis.path}/${globalThis.env.STATIC || "static"}`,
     };
-
     let time = performance.now();
     clean();
     let staticSize = 0;
