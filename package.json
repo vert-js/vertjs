@@ -27,12 +27,15 @@
   "type": "module",
   "scripts": {
     "dev": "bun optimize && bun serve",
-    "serve": "bun src/index.js serve example/dest",
+    "serve": "bun src/index.js serve example",
     "optimize": "bun src/index.js optimize example",
     "make": "bun build src/index.js --outdir bin --minify --target bun --sourcemap=none",
     "make:exe": "bun build src/index.js --outfile exe/vertjs --compile --minify --sourcemap=none"
   },
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "@bogeychan/elysia-etag": "^0.0.3",
+    "@elysiajs/static": "^0.7.1",
+    "dotenv": "^16.3.1",
+    "elysia": "^0.7.29"
   }
 }

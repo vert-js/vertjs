@@ -24,11 +24,13 @@ const parseCSS = async (content) =>
   });
 
 export default async function cssBundler() {
-  const indexcss = Bun.file(`${globalThis.dirs.src}/index.css`);
+  const indexcss = Bun.file(`${globalThis.dirs.src}/main.css`);
   const files = [];
   if (indexcss.size) {
     const content = await parseCSS(await indexcss.text());
-    const destFile = `${globalThis.dirs.dest}/index-${Bun.hash(content)}.css`;
+    const destFile = `${globalThis.dirs.dest}/public/main-${Bun.hash(
+      content
+    )}.css`;
     Bun.write(destFile, content);
     files.push(destFile);
   }

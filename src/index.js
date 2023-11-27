@@ -17,8 +17,7 @@ globalThis.path = `${process.cwd()}/${path}`;
 const loadEnv = async () => {
   const envFile = Bun.file(`${globalThis.path}/.env`);
   if (envFile.size !== 0) {
-    const buf = await envFile.text();
-    return dotenv.parse(buf);
+    return dotenv.parse(await envFile.text());
   }
   return {};
 };
