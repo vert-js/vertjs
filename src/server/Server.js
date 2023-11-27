@@ -2,6 +2,7 @@
 import { Elysia } from "elysia";
 import { staticPlugin } from "@elysiajs/static";
 import { etag } from "@bogeychan/elysia-etag";
+import { autoroutes } from "elysia-autoroutes";
 export default class Server {
   static start() {
     const options = {
@@ -24,6 +25,13 @@ export default class Server {
         })
       )
       .use(etag())
+      .use(
+        autoroutes({
+          routesDir: `${globalThis.path}/${
+            globalThis.env.DEST ?? "dest"
+          }/routes`,
+        })
+      )
       .ws("/", {
         open(ws) {
           ws.subscribe("vertjs");
