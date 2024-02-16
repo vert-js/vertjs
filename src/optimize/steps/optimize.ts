@@ -7,12 +7,12 @@ import svgMinifier from "../minifier/svg";
 import humanFileSize from "../utils/human";
 import jsonMinifier from "../minifier/json";
 
-const transformFile = (file) =>
+const transformFile = (file: string) =>
   new Promise((resolve) => {
     const extension = file.split(".").pop();
     const theFile = Bun.file(file);
     const { size } = theFile;
-    theFile.text().then((text) => {
+    theFile.text().then((text: string) => {
       let content = text;
       switch (extension) {
         case "xml":
@@ -22,7 +22,7 @@ const transformFile = (file) =>
           content = htmlMinifier(content);
           break;
         case "css":
-          content = cssMinifier(content);
+          content = cssMinifier(content).toString();
           break;
         case "svg":
           content = svgMinifier(content);
@@ -43,7 +43,7 @@ const transformFile = (file) =>
     });
   });
 
-const recurseDir = async (dir) =>
+const recurseDir = async (dir: string) =>
   new Promise((resolve, reject) => {
     try {
       const files = readdirSync(dir, {
@@ -57,7 +57,7 @@ const recurseDir = async (dir) =>
       }
       Promise.all(promises).then((logs) => {
         console.log(logs.join("\n"));
-        resolve();
+        resolve(null);
       });
     } catch (e) {
       console.log(e);
@@ -65,6 +65,6 @@ const recurseDir = async (dir) =>
     }
   });
 
-export default async function optimize() {
-  await recurseDir(globalThis.dirs.dest);
-}
+const optimize = async (distPath: string) => await recurseDir(distPath);
+
+export default optimize;

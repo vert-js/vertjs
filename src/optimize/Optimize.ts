@@ -8,25 +8,33 @@ import copyIndexHtml from "./steps/copyIndexHtml";
 import optimize from "./steps/optimize";
 import calcSize from "./steps/calcSize";
 import cssBundler from "./steps/cssBundler";
+import type { OptimizeEnv } from "./Optimize.types";
+import { loadEnv } from "utils/loadEnv";
 
 export default class Optimize {
-  static async optim(path) {
-    globalThis.dirs = {
-      dest: `${globalThis.path}/${globalThis.env.DEST || "dest"}`,
-      src: `${globalThis.path}/${globalThis.env.SRC || "src"}`,
-      static: `${globalThis.path}/${globalThis.env.STATIC || "static"}`,
+  static async optim(path: string) {
+    const env: OptimizeEnv = (await loadEnv(path)) as OptimizeEnv;
+    const dirs = {
+      src: `${path}/${env.SRC || "src"}`,
+      dest: `${path}/${env.DEST || "dest"}`,
+      static: `${path}/${env.STATIC || "static"}`,
     };
     let time = performance.now();
-    clean();
+    clean(dirs.dest);
     let staticSize = 0;
-    if (existsSync(globalThis.dirs.static)) {
-      await copyStatic();
-      staticSize = calcSize(globalThis.dirs.static);
+    if (existsSync(dirs.static)) {
+      await copyStatic(dirs.static, dirs.dest);
+      staticSize = calcSize(dirs.static);
     }
-    await copyIndexHtml(await jsBundler(), await cssBundler());
-    await optimize();
-    const srcSize = calcSize(globalThis.dirs.src) + staticSize;
-    const destSize = calcSize(globalThis.dirs.dest);
+    await copyIndexHtml(
+      await jsBundler(dirs.src, dirs.dest),
+      await cssBundler(dirs.src, dirs.dest),
+      dirs.src,
+      dirs.dest
+    );
+    await optimize(dirs.dest);
+    const srcSize = calcSize(dirs.src) + staticSize;
+    const destSize = calcSize(dirs.dest);
     time = performance.now() - time;
 
     // eslint-disable-next-line no-console

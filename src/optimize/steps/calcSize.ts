@@ -1,6 +1,6 @@
 import { readdirSync } from "fs";
 
-const recurseDir = (dir) => {
+const recurseDir = (dir: string): number => {
   let size = 0;
   const files = readdirSync(dir, {
     withFileTypes: true,
@@ -14,6 +14,6 @@ const recurseDir = (dir) => {
   return size;
 };
 
-export default function calcSize(dir) {
+export default function calcSize(dir: string): number {
   return recurseDir(dir);
 }

@@ -2,13 +2,18 @@
 import { readdirSync, lstatSync, mkdirSync } from "fs";
 import path from "path";
 
-function copyFolderSync(from, to) {
+function copyFolderSync(
+  from: string,
+  to: string,
+  staticPath: string,
+  distPath: string
+) {
   readdirSync(from).forEach((element) => {
     if (lstatSync(path.join(from, element)).isFile()) {
       const input = Bun.file(`${from}/${element}`);
       const destDir = from.replace(
-        new RegExp(`^${globalThis.dirs.static}/`, "g"),
-        `${globalThis.dirs.dest}/`
+        new RegExp(`^${staticPath}/`, "g"),
+        `${distPath}/`
       );
       const output = Bun.file(`${destDir}/${element}`);
       mkdirSync(destDir, {
@@ -17,10 +22,15 @@ function copyFolderSync(from, to) {
       Bun.write(output, input);
       return;
     }
-    copyFolderSync(path.join(from, element), path.join(to, element));
+    copyFolderSync(
+      path.join(from, element),
+      path.join(to, element),
+      staticPath,
+      distPath
+    );
   });
 }
 
-export default function copyStatic() {
-  copyFolderSync(globalThis.dirs.static, globalThis.dirs.dist);
+export default function copyStatic(staticPath: string, distPath: string) {
+  copyFolderSync(staticPath, distPath, staticPath, distPath);
 }

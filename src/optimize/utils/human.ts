@@ -1,4 +1,4 @@
-export default function humanFileSize(bytes) {
+export default function humanFileSize(bytes: number): string {
   const thresh = 1024;
   let res = bytes;
 
