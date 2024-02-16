@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { minify } from "html-minifier";
 
-export default function htmlMinifier(content) {
+export default function htmlMinifier(content: string) {
   return minify(content, {
     collapseWhitespace: true,
     minifyCSS: true,

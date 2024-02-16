@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
+/*
 import { parseDocument } from "htmlparser2";
 import { selectAll } from "css-select";
 import cssMinifier from "../minifier/css";
 import humanFileSize from "../utils/human";
 
-export default function optimizerCSS() {
+export default function optimizerCSS(distPath: string) {
   return new Promise((resolve) => {
     const promisesCSS = [];
     const cssRules = {};
@@ -13,7 +14,7 @@ export default function optimizerCSS() {
     globalThis.files.css.forEach((css) =>
       promisesCSS.push(
         new Promise((resolveCSSEach) => {
-          const file = Bun.file(`${globalThis.dirs.dist}/${css}`);
+          const file = Bun.file(`${distPath}/${css}`);
           cssSizes[css] = file.size;
           let media = "";
           file.text().then((content) => {
@@ -45,7 +46,7 @@ export default function optimizerCSS() {
       globalThis.files.html.forEach((html) =>
         promisesHTML.push(
           new Promise((resolveHTMLEach) => {
-            Bun.file(`${globalThis.dirs.dist}/${html}`)
+            Bun.file(`${distPath}/${html}`)
               .text()
               .then((content) => {
                 const document = parseDocument(content);
@@ -87,3 +88,4 @@ export default function optimizerCSS() {
     });
   });
 }
+*/
