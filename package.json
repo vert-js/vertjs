@@ -4,17 +4,22 @@
   "author": "gouz",
   "devDependencies": {
     "@types/bun": "latest",
+    "bun-lightningcss": "^0.2.0",
+    "bun-plugin-html": "^2.0.0",
     "css-select": "^5.1.0",
     "eslint": "^8.35.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.1.3",
     "html-minifier": "^4.0.0",
     "htmlparser2": "^9.1.0",
     "jsonminify": "^0.4.2",
     "lightningcss": "^1.19.0",
-    "svgo": "^3.0.2"
+    "prettier": "^3.2.5",
+    "svgo": "^3.0.2",
+    "typescript-eslint": "^7.0.2"
   },
   "bin": {
     "vertjs": "./bin/index.js"
@@ -26,9 +31,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "bun optimize && bun serve",
+    "lint": "eslint src/**/*.ts",
+    "dev": "bun render && bun serve",
     "serve": "bun src/index.ts serve example/test",
-    "optimize": "bun src/index.ts optimize example",
+    "render": "bun src/index.ts render example",
     "make": "bun build src/index.ts --outdir bin --minify --target bun --sourcemap=none",
     "make:exe": "bun build src/index.ts --outfile exe/vertjs --compile --minify --sourcemap=none"
   },

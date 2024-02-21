@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
 import { program } from "commander";
-import { Server } from "./server/Server";
-import Optimize from "./optimize/Optimize";
+import Render from "./render/Render";
+import Server from "./server/Server";
 import packagejson from "../package.json";
+import FakeConsole from "utils/FakeConsole";
 
 program.name(packagejson.name).version(packagejson.version, "-v");
 program
@@ -13,10 +14,11 @@ program
   });
 
 program
-  .command("optimize")
+  .command("render")
   .argument("[path]", "path", ".")
-  .action((path) => {
-    Optimize.optim(`${process.cwd()}/${path}`);
+  .option("-vv, --verbose", "verbose mode", false)
+  .action((path, options) => {
+    Render(`${process.cwd()}/${path}`, options.verbose ? console : FakeConsole);
   });
 
 program.parse();

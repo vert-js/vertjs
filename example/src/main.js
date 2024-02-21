@@ -1,1 +1,1 @@
-console.log("🌱 VertJS");
+import "./style.css";

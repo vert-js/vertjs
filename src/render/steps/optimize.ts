@@ -1,13 +1,14 @@
-/* eslint-disable no-console */
 /* eslint-disable no-undef */
-import { readdirSync } from "fs";
+import humanFileSize from "utils/human";
+import truncate from "utils/truncate";
+import recurseDir from "utils/recurseDir";
 import cssMinifier from "../minifier/css";
 import htmlMinifier from "../minifier/html";
 import svgMinifier from "../minifier/svg";
-import humanFileSize from "../utils/human";
 import jsonMinifier from "../minifier/json";
+import type { RenderTransformation } from "../Render.types";
 
-const transformFile = (file: string) =>
+const transformFile = async (file: string): Promise<RenderTransformation> =>
   new Promise((resolve) => {
     const extension = file.split(".").pop();
     const theFile = Bun.file(file);
@@ -34,37 +35,16 @@ const transformFile = (file: string) =>
           break;
       }
       Bun.write(theFile, content).then((newSize) => {
-        resolve(
-          `🗜️  ${file}: from ${humanFileSize(size)} to ${humanFileSize(
-            newSize
-          )}`
-        );
+        resolve({
+          file: truncate(file, 50, "start"),
+          original: humanFileSize(size),
+          final: humanFileSize(newSize),
+        });
       });
     });
   });
 
-const recurseDir = async (dir: string) =>
-  new Promise((resolve, reject) => {
-    try {
-      const files = readdirSync(dir, {
-        withFileTypes: true,
-      });
-      const promises = [];
-      for (let i = 0; i < files.length; i += 1) {
-        if (files[i].isFile()) {
-          promises.push(transformFile(`${dir}/${files[i].name}`));
-        } else promises.push(recurseDir(`${dir}/${files[i].name}`));
-      }
-      Promise.all(promises).then((logs) => {
-        console.log(logs.join("\n"));
-        resolve(null);
-      });
-    } catch (e) {
-      console.log(e);
-      reject();
-    }
-  });
-
-const optimize = async (distPath: string) => await recurseDir(distPath);
+const optimize = async (distPath: string): Promise<RenderTransformation[]> =>
+  Promise.all(recurseDir(distPath).map((file) => transformFile(file)));
 
 export default optimize;
