@@ -9,7 +9,6 @@ import type { VertJsEnv } from "types";
 
 export default async function Server(path: string) {
   const env: VertJsEnv = (await loadEnv(path)) as VertJsEnv;
-  console.log(path, env);
   const app = new Elysia({
     name: "🌱 VertJS",
   })
