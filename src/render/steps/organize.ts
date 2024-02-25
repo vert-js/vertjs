@@ -37,7 +37,7 @@ export default async function organize(
               assets.forEach((asset) => {
                 text = text.replaceAll(
                   `".${asset}"`,
-                  `"://${env.STATIC_HOST}${asset}"`,
+                  `"//${env.STATIC_HOST}${asset}"`,
                 );
               });
               Bun.write(html, text);
