@@ -31,6 +31,7 @@ export default async function Server(path: string) {
       },
     })
     .get("/", () => Bun.file(`${path}/index.html`))
+    .get("/*", ({ params }) => Bun.file(`${path}/${params["*"]}`))
     .listen(
       env.HTTPS === "true"
         ? {
