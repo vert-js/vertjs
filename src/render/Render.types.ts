@@ -1,11 +1,10 @@
-export type RenderEnv = {
-  SRC?: string;
-  DIST?: string;
-  STATIC?: string;
-};
-
 export type RenderTransformation = {
   file: string;
   original: string;
   final: string;
+};
+
+export type RenderOrganization = {
+  file: string;
+  action: string;
 };
