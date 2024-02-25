@@ -5,10 +5,11 @@ import { etag } from "@bogeychan/elysia-etag";
 import { existsSync } from "fs";
 import { autoroutes } from "elysia-autoroutes";
 import loadEnv from "utils/loadEnv";
-import type { ServerEnv } from "./Server.types";
+import type { VertJsEnv } from "types";
 
 export default async function Server(path: string) {
-  const env: ServerEnv = (await loadEnv(path)) as ServerEnv;
+  const env: VertJsEnv = (await loadEnv(path)) as VertJsEnv;
+  console.log(path, env);
   const app = new Elysia({
     name: "🌱 VertJS",
   })

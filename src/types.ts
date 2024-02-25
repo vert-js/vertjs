@@ -8,4 +8,5 @@ export type VertJsEnv = {
   HTTPS?: string;
   KEY?: string;
   CERT?: string;
+  PASSPHRASE?: string;
 };
