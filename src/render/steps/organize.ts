@@ -14,15 +14,20 @@ export default async function organize(
   const htmls: string[] = [];
   recurseDir(distPath).forEach((file) => {
     if (!file.endsWith(".html")) {
-      mkdirSync(dirname(file.replace(distPath, `${distPath}/public`)), {
-        recursive: true,
-      });
-      renameSync(file, file.replace(distPath, `${distPath}/public`));
-      files.push({
-        file: truncate(file, 50, "start"),
-        action: "moved",
-      });
-      assets.push(file.replace(distPath, ""));
+      if (!file.endsWith(`.nopublic`)) {
+        mkdirSync(dirname(file.replace(distPath, `${distPath}/public`)), {
+          recursive: true,
+        });
+        renameSync(file, file.replace(distPath, `${distPath}/public`));
+        files.push({
+          file: truncate(file, 50, "start"),
+          action: "moved",
+        });
+        assets.push(file.replace(distPath, ""));
+      } else {
+        renameSync(file, file.replace(".nopublic", ""));
+        assets.push(file.replace(`.nopublic`, ""));
+      }
     } else htmls.push(file);
   });
   if (env.STATIC_HOST) {
@@ -37,7 +42,7 @@ export default async function organize(
               assets.forEach((asset) => {
                 text = text.replaceAll(
                   `".${asset}"`,
-                  `"//${env.STATIC_HOST}${asset}"`,
+                  `"//${env.STATIC_HOST}${env.STATIC_PORT ? `:${env.STATIC_PORT}` : ""}${asset}"`,
                 );
               });
               Bun.write(html, text);

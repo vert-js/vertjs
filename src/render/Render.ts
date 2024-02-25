@@ -49,7 +49,7 @@ const stepStatics = (
   let size = 0;
   if (existsSync(dirs.static)) {
     console.log(`\n📑 \x1b[1mCopy statics files\x1b[0m`);
-    const staticFiles = copyStatic(dirs.static, dirs.dist, dirs.dist);
+    const staticFiles = copyStatic(dirs.static, dirs.dist);
     console.log(staticFiles);
     size = calcSize(dirs.static);
   }
@@ -95,15 +95,15 @@ export default async function Render(
 ) {
   const env: VertJsEnv = (await loadEnv(path)) as VertJsEnv;
   const dirs: Dirs = {
-    src: `${path}/${env.SRC || "src"}`,
-    dist: `${path}/${env.DIST || "dist"}`,
-    static: `${path}/${env.STATIC || "static"}`,
+    src: `${path}/${env.SRC}`,
+    dist: `${path}/${env.DIST}`,
+    static: `${path}/${env.STATIC}`,
   };
   let time = performance.now();
   stepClean(dirs, console);
   await stepBuild(dirs, console);
-  await stepOrganize(dirs, env, console);
   const staticSize = stepStatics(dirs, console);
+  await stepOrganize(dirs, env, console);
   await stepOptim(dirs, console);
   time = performance.now() - time;
   stepFinal(dirs, staticSize, console);

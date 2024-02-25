@@ -1,6 +1,6 @@
 {
   "name": "vertjs",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": "gouz",
   "devDependencies": {
     "@types/bun": "latest",
@@ -40,12 +40,13 @@
   },
   "dependencies": {
     "@bogeychan/elysia-etag": "^0.0.3",
-    "@elysiajs/static": "^0.7.1",
+    "@elysiajs/cors": "^0.8.0",
     "@types/html-minifier": "^4.0.5",
     "@types/jsonminify": "^0.4.3",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "elysia": "^0.8.15",
-    "elysia-autoroutes": "^0.4.0"
+    "elysia-autoroutes": "^0.4.0",
+    "elysia-compression": "^0.0.7"
   }
 }
