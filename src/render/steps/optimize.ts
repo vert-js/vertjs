@@ -36,7 +36,7 @@ const transformFile = async (file: string): Promise<RenderTransformation> =>
       }
       Bun.write(theFile, content).then((newSize) => {
         resolve({
-          file: truncate(file, 50, "start"),
+          file: truncate(file),
           original: humanFileSize(size),
           final: humanFileSize(newSize),
         });

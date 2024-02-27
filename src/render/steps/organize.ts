@@ -23,7 +23,7 @@ const move = (distPath: string): OrganizationFiles => {
         });
         renameSync(file, file.replace(distPath, `${distPath}/public`));
         files.push({
-          file: truncate(file, 50, "start"),
+          file: truncate(file),
           action: "moved",
         });
         assets.push(file.replace(distPath, ""));

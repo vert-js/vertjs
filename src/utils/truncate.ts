@@ -1,7 +1,7 @@
 export default function truncate(
   str: string,
-  maxLength: number,
-  location = "middle",
+  maxLength: number = 42,
+  location = "start",
 ): string {
   if (str.length <= maxLength) {
     return str;

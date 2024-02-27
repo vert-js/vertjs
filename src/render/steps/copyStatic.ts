@@ -13,7 +13,7 @@ export default function copyStatic(from: string, to: string): string {
           recursive: true,
         });
         Bun.write(output, input);
-        return `\t${truncate(`${from}/${element}`, 50, "start")}`;
+        return `\t${truncate(`${from}/${element}`)}`;
       }
       return copyStatic(path.join(from, element), path.join(to, element));
     })

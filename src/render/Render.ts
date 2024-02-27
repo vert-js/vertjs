@@ -4,6 +4,7 @@ import type { VertJsEnv } from "types";
 import humanFileSize from "utils/human";
 import loadEnv from "utils/loadEnv";
 import type FakeConsole from "utils/FakeConsole";
+import truncate from "utils/truncate";
 import copyStatic from "./steps/copyStatic";
 import clean from "./steps/clean";
 import optimize from "./steps/optimize";
@@ -20,7 +21,7 @@ type Dirs = {
 };
 
 const stepClean = (dirs: Dirs, console: Console | typeof FakeConsole) => {
-  console.log(`\n🧹 \x1b[1mClean\x1b[0m \n\t${dirs.dist}`);
+  console.log(`\n🧹 \x1b[1mClean\x1b[0m \n\t${truncate(dirs.dist)}`);
   clean(dirs.dist);
 };
 

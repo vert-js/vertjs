@@ -4,7 +4,7 @@ import { etag } from "@bogeychan/elysia-etag";
 import { existsSync } from "fs";
 import { autoroutes } from "elysia-autoroutes";
 import { cors } from "@elysiajs/cors";
-import { compression } from "elysia-compression";
+// import { compression } from "elysia-compression";
 import loadEnv from "utils/loadEnv";
 import type { VertJsEnv } from "types";
 
@@ -59,7 +59,7 @@ export default async function Server(path: string) {
       name: "🌱 VertJS",
     })
       .use(cors())
-      //.use(compression({ type: "gzip" }))
+      // .use(compression({ type: "gzip" }))
       .get("/*", ({ params }) => Bun.file(`${path}/public/${params["*"]}`))
       .listen(
         env.HTTPS === "true"
