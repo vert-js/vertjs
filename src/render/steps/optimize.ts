@@ -2,8 +2,7 @@
 import humanFileSize from "utils/human";
 import truncate from "utils/truncate";
 import recurseDir from "utils/recurseDir";
-import cssMinifier from "../minifier/css";
-import htmlMinifier from "../minifier/html";
+import xmlMinifier from "../minifier/xml";
 import svgMinifier from "../minifier/svg";
 import jsonMinifier from "../minifier/json";
 import type { RenderTransformation } from "../Render.types";
@@ -17,13 +16,7 @@ const transformFile = async (file: string): Promise<RenderTransformation> =>
       let content = text;
       switch (extension) {
         case "xml":
-          content = htmlMinifier(content);
-          break;
-        case "html":
-          content = htmlMinifier(content);
-          break;
-        case "css":
-          content = cssMinifier(content).toString();
+          content = xmlMinifier(content);
           break;
         case "svg":
           content = svgMinifier(content);

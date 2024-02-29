@@ -1,10 +1,9 @@
-import { Glob } from "bun";
+import { Glob, type BuildOutput } from "bun";
 import html from "bun-plugin-html";
-import lightningcss from "bun-lightningcss";
 
 export default async function build(
   srcPath: string,
-  distPath: string
+  distPath: string,
 ): Promise<BuildOutput> {
   const glob = new Glob("**/*.html");
   const htmlFiles = [
@@ -19,6 +18,6 @@ export default async function build(
     outdir: `${distPath}`,
     minify: true,
     naming: "[dir]/[name]-[hash].[ext]",
-    plugins: [html(), lightningcss()],
+    plugins: [html()],
   });
 }

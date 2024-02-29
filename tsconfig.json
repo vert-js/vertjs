@@ -5,7 +5,6 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
-    "jsx": "react-jsx", // support JSX
     "allowJs": true, // allow importing `.js` from `.ts`
 
     // Bundler mode
@@ -24,6 +23,8 @@
     // Some stricter flags
     "useUnknownInCatchVariables": true,
     "noPropertyAccessFromIndexSignature": true,
+
+    "experimentalDecorators": true,
 
     "baseUrl": "src",
     "outDir": "dist"
