@@ -1,16 +1,44 @@
 import puppeteer from "puppeteer";
 import { brotliCompress, gzip, deflate } from "zlib";
-import { getEcoindex, type ecoIndexType } from "../utils/ecoIndex";
+import { getEcoindex } from "../utils/ecoIndex";
 import loadEnv from "../utils/loadEnv";
+import humanFileSize from "../utils/human";
 import type { VertJsEnv } from "../types";
 
 const { log, table } = console;
 
-export default async function EcoIndex(path: string): Promise<ecoIndexType> {
-  const env: VertJsEnv = await loadEnv(path);
-  const url = `http${env.HTTPS === "true" ? "s" : ""}://${env.HOST}:${env.PORT}`;
+const colorizeNumeric = (value: string): string =>
+  value.replace(/(\d+)(\.\d+)?/g, "\u001b[33m$1$2\u001b[0m");
 
+const joliGrade = (value: string): string => {
+  let color = "";
+  switch (value) {
+    case "A":
+      color = "42;1";
+      break;
+    case "B":
+      color = "42";
+      break;
+    case "C":
+      color = "43;1";
+      break;
+    case "D":
+      color = "43";
+      break;
+    case "E":
+      color = "41";
+      break;
+    case "F":
+    default:
+      color = "41;1";
+      break;
+  }
+  return `\u001b[${color};1m ${value} \u001b[0m`;
+};
+
+export async function EcoIndexPage(url: string): Promise<void> {
   const browser = await puppeteer.launch({
+    headless: true,
     args: ["disable-dev-shm-usage"],
   });
 
@@ -72,9 +100,19 @@ export default async function EcoIndex(path: string): Promise<ecoIndexType> {
 
   log("Results:");
   table({
-    "💚": `${eco.score} %`,
-    "🎓": eco.grade,
-    "💨": `${eco.ghg} gCO2e`,
-    "🚰": `${eco.water} cL`,
+    "Score 💚": colorizeNumeric(`${eco.score}%`),
+    "Grade 🎓": joliGrade(eco.grade),
+    "Gas Emission 💨": colorizeNumeric(`${eco.ghg}gCO2e`),
+    "Water Consumption 🚰": colorizeNumeric(`${eco.water}cL`),
+    "Requests 🌐": colorizeNumeric(`${req}`),
+    "Weight 📦": colorizeNumeric(humanFileSize(size)),
+    "Dom Elements 📚": colorizeNumeric(`${dom}`),
   });
+}
+
+export default async function EcoIndex(path: string): Promise<void> {
+  const env: VertJsEnv = await loadEnv(path);
+  const url = `http${env.HTTPS === "true" ? "s" : ""}://${env.HOST}:${env.PORT}`;
+
+  await EcoIndexPage(url);
 }
