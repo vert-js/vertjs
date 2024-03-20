@@ -26,12 +26,7 @@ program
   .command("ecoindex")
   .argument("[path]", "path", ".")
   .action(async (path) => {
-    try {
-      await EcoIndex(`${process.cwd()}/${path}`);
-    } catch (_) {
-      // sometimes puppeteer fails to launch, so we just ignore it
-      await EcoIndex(`${process.cwd()}/${path}`);
-    }
+    await EcoIndex(`${process.cwd()}/${path}`);
   });
 
 program.parse();
