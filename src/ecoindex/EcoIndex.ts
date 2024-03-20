@@ -8,7 +8,7 @@ import type { VertJsEnv } from "../types";
 const { log, table } = console;
 
 const colorizeNumeric = (value: string): string =>
-  value.replace(/(\d+)(\.\d+)?/g, "\u001b[33m$1$2\u001b[0m");
+  value.replace(/(\d+)(\.\d+)?/, "\u001b[33m$1$2\u001b[0m ");
 
 const joliGrade = (value: string): string => {
   let color = "";
