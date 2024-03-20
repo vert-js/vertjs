@@ -12,7 +12,6 @@ export default async function build(
       absolute: true,
     }),
   ];
-  // eslint-disable-next-line no-undef
   return Bun.build({
     entrypoints: htmlFiles,
     outdir: `${distPath}`,

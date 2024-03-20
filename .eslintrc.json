@@ -2,7 +2,7 @@
   "env": {
     "es2021": true
   },
-  "extends": ["airbnb-base", "prettier"],
+  "extends": ["airbnb-base", "prettier", "plugin:@ecocode/recommended"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",

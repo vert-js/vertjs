@@ -11,6 +11,7 @@ import optimize from "./steps/optimize";
 import calcSize from "./steps/calcSize";
 import build from "./steps/build";
 import organize from "./steps/organize";
+import prepare from "./steps/prepare";
 
 const { log } = console;
 
@@ -23,6 +24,14 @@ type Dirs = {
 const stepClean = (dirs: Dirs, console: Console | typeof FakeConsole) => {
   console.log(`\n🧹 \x1b[1mClean\x1b[0m \n\t${truncate(dirs.dist)}`);
   clean(dirs.dist);
+};
+
+const stepPrepare = async (
+  dirs: Dirs,
+  console: Console | typeof FakeConsole,
+): Promise<boolean> => {
+  console.log(`\n🚜 \x1b[1mPrepare\x1b[0m`);
+  return prepare(dirs.src);
 };
 
 const stepBuild = async (dirs: Dirs, console: Console | typeof FakeConsole) => {
@@ -102,11 +111,13 @@ export default async function Render(
   };
   let time = performance.now();
   stepClean(dirs, console);
-  await stepBuild(dirs, console);
-  const staticSize = stepStatics(dirs, console);
-  await stepOrganize(dirs, env, console);
-  await stepOptim(dirs, console);
-  time = performance.now() - time;
-  stepFinal(dirs, staticSize, console);
-  log(`🌱 takes \x1b[1m\x1b[32m${time.toFixed(3)}\x1b[0m ms`);
+  if (await stepPrepare(dirs, console)) {
+    await stepBuild(dirs, console);
+    const staticSize = stepStatics(dirs, console);
+    await stepOrganize(dirs, env, console);
+    await stepOptim(dirs, console);
+    time = performance.now() - time;
+    stepFinal(dirs, staticSize, console);
+    log(`🌱 takes \x1b[1m\x1b[32m${time.toFixed(3)}\x1b[0m ms`);
+  }
 }
